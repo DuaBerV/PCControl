@@ -18,7 +18,6 @@ async def send_to_admin(dp):
     await bot.send_message(chat_id=admin_id, text="Бот таки работает")
 
 async def notify_admins(dp):
-    save('Start bot')
     await TextBroadcaster(users_id, 'Бот таки работает').run()
     for i in users_id:
         await bot.send_photo(i, open('C:\\Users\\Admin\\Desktop\\start.jpg', 'rb'))
@@ -180,13 +179,23 @@ async def screenshot(message: Message):
         save('screen')
         await bot.send_photo(chat_id=message.chat.id, photo=photo)
 
+@dp.message_handler(commands='returnsave')
+async def screenshot(message: Message):
+    saved = save('returnsave')
+    for x in saved:
+        await bot.send_message(message.from_user.id, text=' в '.join(x))
+
 def save(command):
-    con = sqlite3.connect("database.db")
+    con = sqlite3.connect("database.db", timeout=15)
     cur = con.cursor()
-    res = cur.execute("SELECT Command FROM Commands")
-    res = res.fetchall()
-    now = datetime.now()
-    current_time = now.strftime("%H:%M:%S")
-    cur.execute('''INSERT INTO Commands(Command, Time)
-            VALUES (?, ?)''', [command, current_time])
+    if command != 'returnsave':
+        now = datetime.now()
+        current_time = now.strftime("%H:%M:%S")
+        cur.execute('''INSERT INTO Commands(Command, Time)
+                VALUES (?, ?)''', [command, current_time])
+    else:
+        res = cur.execute("SELECT Command, Time FROM Commands")
+        res = res.fetchall()
+        return res
     con.commit()
+    con.close()
