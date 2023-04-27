@@ -18,6 +18,7 @@ async def send_to_admin(dp):
     await bot.send_message(chat_id=admin_id, text="Бот таки работает")
 
 async def notify_admins(dp):
+    save('Start bot')
     await TextBroadcaster(users_id, 'Бот таки работает').run()
     for i in users_id:
         await bot.send_photo(i, open('C:\\Users\\Admin\\Desktop\\start.jpg', 'rb'))
@@ -30,17 +31,19 @@ async def gg():
 
 @dp.message_handler(commands='id')
 async def idy(message: Message):
+    save('id')
     await message.answer(f'Ваш ID: {message.from_user.id}')
     us.add(message.from_user.id)
 
 @dp.message_handler(commands='allid')
 async def allidy(message: Message):
+    save('allid')
     await message.answer(f'Все ID: {us}')
 
 @dp.message_handler(commands='start')
-
 async def star(message: Message):
     me = await bot.get_me()
+    save('start')
     await message.answer(f'{message.from_user.first_name}, тебе здесь не рады')
 
 @dp.message_handler(commands='maincraft')
@@ -53,6 +56,7 @@ async def mainc(message: Message):
         time.sleep(15)
         pyautogui.screenshot(r"C:\Users\Admin\Desktop\screenshot.png")
         photo = open('C:\\Users\\Admin\\Desktop\\screenshot.png', 'rb')
+        save('maincraft')
         await bot.send_photo(chat_id=message.chat.id, photo=photo)
         await bot.send_message(message.from_user.id, text=f'Майн запущен')
     else:
@@ -68,6 +72,7 @@ async def starcraft(message: Message):
         time.sleep(15)
         pyautogui.screenshot(r'C:\Users\Admin\Desktop\screenshot.png')
         photo = open('C:\\Users\\Admin\\Desktop\\screenshot.png', 'rb')
+        save('starcraft')
         await bot.send_photo(chat_id=message.chat.id, photo=photo)
         await bot.send_message(message.from_user.id, text=f'Старкрафт запущен')
     else:
@@ -83,6 +88,7 @@ async def warthunder(message: Message):
         time.sleep(30)
         pyautogui.screenshot(r'C:\Users\Admin\Desktop\scrinshot.png')
         photo = open('C:\\Users\\Admin\\Desktop\\scrinshot.png', 'rb')
+        save('warthunder')
         await bot.send_photo(chat_id=message.chat.id, photo=photo)
         await bot.send_message(message.from_user.id, text=f'Тундра запущена')
     else:
@@ -95,11 +101,12 @@ async def closegame(message: Message):
         time.sleep(2)
         pyautogui.screenshot(r'C:\Users\Admin\Desktop\screenshot.png')
         photo = open('C:\\Users\\Admin\\Desktop\\screenshot.png', 'rb')
+        save('close game')
         await bot.send_photo(chat_id=message.chat.id, photo=photo)
         await bot.send_message(message.from_user.id, text=f'Игра закрыта')
 
 @dp.message_handler(commands='move')
-async def movemause(message: Message):
+async def movemouse(message: Message):
     if message.from_user.id == admin_id:
         text = message.text[6:]
         text = text.split()
@@ -124,6 +131,7 @@ async def dclicking(message: Message):
         pyautogui.click()
         pyautogui.screenshot(r'C:\Users\Admin\Desktop\screenshot.png')
         photo = open('C:\\Users\\Admin\\Desktop\\screenshot.png', 'rb')
+        save('click')
         await bot.send_photo(chat_id=message.chat.id, photo=photo)
 
 @dp.message_handler(commands='dclick')
@@ -132,6 +140,7 @@ async def clicking(message: Message):
         pyautogui.doubleClick()
         pyautogui.screenshot(r'C:\Users\Admin\Desktop\screenshot.png')
         photo = open('C:\\Users\\Admin\\Desktop\\screenshot.png', 'rb')
+        save('double click')
         await bot.send_photo(chat_id=message.chat.id, photo=photo)
 
 @dp.message_handler(commands='write')
@@ -142,6 +151,7 @@ async def keyboard(message: Message):
         time.sleep(3)
         pyautogui.screenshot(r'C:\Users\Admin\Desktop\screenshot.png')
         photo = open('C:\\Users\\Admin\\Desktop\\screenshot.png', 'rb')
+        save('write')
         await bot.send_photo(chat_id=message.chat.id, photo=photo)
 
 @dp.message_handler(commands='enter')
@@ -152,6 +162,7 @@ async def keyboarde(message: Message):
         time.sleep(3)
         pyautogui.screenshot(r'C:\Users\Admin\Desktop\screenshot.png')
         photo = open('C:\\Users\\Admin\\Desktop\\screenshot.png', 'rb')
+        save('enter')
         await bot.send_photo(chat_id=message.chat.id, photo=photo)
 
 @dp.message_handler(commands='screen')
@@ -166,6 +177,7 @@ async def screenshot(message: Message):
                          outline=(0, 0, 0))
             photo.save(r'C:\Users\Admin\Desktop\screenshot.png', quality=95)
         photo = open('C:\\Users\\Admin\\Desktop\\screenshot.png', 'rb')
+        save('screen')
         await bot.send_photo(chat_id=message.chat.id, photo=photo)
 
 def save(command):
